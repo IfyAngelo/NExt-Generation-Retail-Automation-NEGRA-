@@ -7,7 +7,7 @@ class AgentGraphState(TypeDict):
     manager_response: Annotated[list, add_messages]
     sales_agent_response: Annotated[list, add_messages]
     customer_service_agent_response: Annotated[list, add_messages]
-    item_recommendation_agent_response: Annotated[list, add_messages]
+    items_recommendation_agent_response: Annotated[list, add_messages]
     # add state objects for tools too
     cart_agent_response: Annotated[list, add_messages]
     pos_agent_response: Annotated[list, add_messages]
@@ -40,13 +40,13 @@ def get_agent_graph_state(state:AgentGraphState, state_key:str):
         else:
             return state["customer_service_agent_response"]
         
-    elif state_key == "item_recommendation_agent_all":
-        return state["item_recommendation_agent_response"]
-    elif state_key == "item_recommendation_agent_latest":
-        if state["item_recommendation_agent_response"]:
-            return state["item_recommendation_agent_response"][-1]
+    elif state_key == "items_recommendation_agent_all":
+        return state["items_recommendation_agent_response"]
+    elif state_key == "items_recommendation_agent_latest":
+        if state["items_recommendation_agent_response"]:
+            return state["items_recommendation_agent_response"][-1]
         else:
-            return state["item_recommendation_agent_response"]
+            return state["items_recommendation_agent_response"]
     
     # add state nodes for tools too
     
@@ -82,7 +82,7 @@ state = {
     "manager_response": [],
     "sales_agent_response": [],
     "customer_service_agent_response": [],
-    "item_recommendation_agent_response": [],
+    "items_recommendation_agent_response": [],
     # add state for tools
     "cart_agent_response": [],
     "pos_agent_response": [],

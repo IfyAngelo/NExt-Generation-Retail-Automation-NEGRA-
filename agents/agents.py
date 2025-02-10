@@ -151,7 +151,7 @@ class ItemsRecommendationAgent(Agent):
         response = ai_msg.content
 
         print(colored(f"Recommendation Agent 👩🏽‍⚖️: {response}", 'magenta'))
-        self.update_state("item_recommendation_agent_response", response)
+        self.update_state("items_recommendation_agent_response", response)
         return self.state
     
 class CartAgent(Agent):
