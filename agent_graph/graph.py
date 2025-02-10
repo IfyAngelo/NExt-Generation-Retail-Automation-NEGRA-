@@ -7,24 +7,28 @@ from langchain_core.messages import HumanMessage
 from models.openai_models import get_open_ai_json
 from langgraph.checkpoint.sqlite import SqliteSaver
 from agents.agents import (
-    PlannerAgent,
-    SelectorAgent,
-    ReporterAgent,
-    ReviewerAgent,
-    RouterAgent,
-    FinalReportAgent,
+    ManagerAgent,
+    SalesAgent,
+    CustomerServiceAgent,
+    ItemsRecommendationAgent,
+    CartAgent,
+    POSAgent,
+    InvoiceEmailAgent,
     EndNodeAgent
 )
 from prompts.prompts import (
-    reviewer_prompt_template, 
-    planner_prompt_template, 
-    selector_prompt_template, 
-    reporter_prompt_template,
-    router_prompt_template,
-    reviewer_guided_json,
-    selector_guided_json,
-    planner_guided_json,
-    router_guided_json
+    manager_prompt_template,
+    salesagent_prompt_template, 
+    customerserviceagent_prompt_template, 
+    itemsrecommendationagent_prompt_template, 
+    cartagent_prompt_template,
+    invoiceemailer_prompt_template,
+    manager_guided_json,
+    salesagent_guided_json,
+    itemsrecommendationagent_guided_json,
+    customerserviceagent_guided_json,
+    cartagent_guided_json,
+    invoiceemailer_guided_json
 
 )
 from tools.google_serper import get_google_serper
@@ -35,20 +39,20 @@ def create_graph(server=None, model=None, stop=None, model_endpoint=None, temper
     graph = StateGraph(AgentGraphState)
 
     graph.add_node(
-        "planner", 
-        lambda state: PlannerAgent(
+        "manager", 
+        lambda state: ManagerAgent(
             state=state,
             model=model,
-            server=server,
-            guided_json=planner_guided_json,
+            # server=server,
+            guided_json=manager_guided_json,
             stop=stop,
             model_endpoint=model_endpoint,
             temperature=temperature
         ).invoke(
-            research_question=state["research_question"],
+            user_query=state["user_query"],
             feedback=lambda: get_agent_graph_state(state=state, state_key="reviewer_latest"),
             # previous_plans=lambda: get_agent_graph_state(state=state, state_key="planner_all"),
-            prompt=planner_prompt_template
+            prompt=manager_prompt_template
         )
     )
 
