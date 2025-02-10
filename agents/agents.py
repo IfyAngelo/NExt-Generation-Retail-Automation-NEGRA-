@@ -155,7 +155,7 @@ class ItemsRecommendationAgent(Agent):
         return self.state
     
 class CartAgent(Agent):
-    def invoke(self, feedback=None, research_question=None, prompt=cartagent_prompt_template):
+    def invoke(self, customer_query, feedback=None, prompt=cartagent_prompt_template):
         feedback_value = feedback() if callable(feedback) else feedback
         feedback_value = check_for_content(feedback_value)
 
@@ -163,7 +163,7 @@ class CartAgent(Agent):
 
         messages = [
             {"role": "system", "content": cartagent_prompt},
-            {"role": "user", "content": f"research question: {research_question}"}
+            {"role": "user", "content": f"research question: {customer_query}"}
         ]
 
         llm = self.get_llm()
